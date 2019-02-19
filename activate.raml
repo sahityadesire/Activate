@@ -1,0 +1,31 @@
+#%RAML 1.0 Trait
+title: TelecomId
+
+traits:
+  secured: !include exchange_modules/e1e2f712-c943-4adb-9590-00453d1051c0/authorisation/1.0.0/authorisation.raml
+  bad-responses: !include traits/bad-responses.raml
+
+types: 
+  activate: !include types/Activate.raml
+  
+
+/ActivatePhoneNumber:
+is: [secured,bad-responses]
+patch:
+    description: Activating the phone numbers of a particular customer
+    queryParameters:
+        phoneNumber:
+          description: telephone number of a particular customer
+          type: string
+          required: true
+          example: 1234567891
+    body:
+          application/json:
+            type: activate
+            example: !include examples/activate.raml
+    responses:
+          204:
+            description: telephone number successfully activated
+
+       
+
